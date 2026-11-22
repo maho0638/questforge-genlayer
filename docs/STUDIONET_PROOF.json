@@ -1,0 +1,48 @@
+{
+  "schema": "studionet-live-proof-v1",
+  "date": "2026-11-22",
+  "network": "Studionet",
+  "chain_id": 61999,
+  "contract": "0x0362B282B2389B8AE1D609a845b32986675573b3",
+  "contract_path": "contracts/quest_forge.py",
+  "contract_source_sha256": "1527dca395726d9b7495f9af6ec1ef4bb3be6354d40eb24e29aac5a110d72d84",
+  "source_commit": "eed162d0230edd127d0f9c4a5e0c3305bf77ca90",
+  "live_test_status": "SUCCESS",
+  "integration_run": "https://github.com/maho0638/questforge-genlayer/actions/runs/45057554737",
+  "independent_rpc_audit": "https://github.com/maho0638/chartercycle-genlayer/actions/runs/45057971178",
+  "decision": "PASS",
+  "validator_votes": {
+    "agree": 3,
+    "idle": 2
+  },
+  "consensus_rounds": 1,
+  "real_models": true,
+  "leader_only": false,
+  "mocked_llm": false,
+  "transactions": {
+    "create": {
+      "hash": "0xfd5ee42ce771a2438dc8905588306e4600793f8f6d19e87e2fbde47dfdb1c29e",
+      "status": "FINALIZED"
+    },
+    "join": {
+      "hash": "0xb39b952d048fd0d3847bfb8a4e0ad4406b49cd11a87b7fe1da02e0a535cee2c9",
+      "status": "FINALIZED"
+    },
+    "solve": {
+      "hash": "0x5e0ded8bbe753cdfdf571d3cf9870a814039f6af293f2582bfe2a9206327f8df",
+      "status": "FINALIZED"
+    },
+    "scout": {
+      "hash": "0xf646b841e0f6ad070973527145f2117cc94ee41334f3a7be42286839fbcb423f",
+      "status": "FINALIZED"
+    }
+  },
+  "readback_assertions": "PASS",
+  "limits": [
+    "Studionet is a temporary development environment",
+    "No third-party security audit",
+    "Only tested gameplay subset on-chain; complete win tested in Direct Mode",
+    "Portal submission not executed"
+  ],
+  "repo_release_reminder": "Change both repos Private to Public before Portal submission"
+}
