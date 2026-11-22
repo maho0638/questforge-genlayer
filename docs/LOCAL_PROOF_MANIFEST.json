@@ -1,0 +1,45 @@
+{
+  "format": "genlayer-local-qa-v3",
+  "date": "2026-11-22",
+  "repo": "questforge-genlayer",
+  "contract_path": "contracts/quest_forge.py",
+  "source_sha256": "5fb1b313102cf54a4d0eb670bc494f14b92fa06aa9f0eb060856fd19c9aa3106",
+  "local_fake_sdk_tests": {
+    "status": "PASS",
+    "passed": 34,
+    "total": 34,
+    "commands": [
+      "PYTHONPATH=tests/local python -m pytest tests/local -q"
+    ]
+  },
+  "python_compile": {
+    "status": "PASS"
+  },
+  "custom_ast_audit": {
+    "status": "PASS",
+    "official": false
+  },
+  "genvm_lint": {
+    "status": "NOT_RUN",
+    "reason": "official linter unavailable"
+  },
+  "official_direct_mode": {
+    "status": "NOT_RUN",
+    "reason": "genlayer-test unavailable"
+  },
+  "studionet": {
+    "status": "NOT_RUN",
+    "reason": "explicit chain/gas permission required"
+  },
+  "github_ci": {
+    "status": "PENDING",
+    "reason": "approved push to trigger CI"
+  },
+  "source_references": [
+    "https://docs.genlayer.com/developers/intelligent-contracts/testing",
+    "https://docs.genlayer.com/developers/intelligent-contracts/equivalence-principle",
+    "https://docs.genlayer.com/api-references/genlayer-linter"
+  ],
+  "release_gate": "NOT_READY",
+  "public_before_portal": true
+}

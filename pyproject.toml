@@ -1,0 +1,3 @@
+[tool.pytest.ini_options]
+markers = ["integration: opt-in network execution"]
+testpaths = ["tests/direct"]

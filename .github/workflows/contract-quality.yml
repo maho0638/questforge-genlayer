@@ -1,0 +1,29 @@
+name: Contract quality — no deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contract-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned GenLayer packages
+        run: python -m pip install -r requirements.txt
+      - name: Python syntax
+        run: python -m compileall -q contracts tests
+      - name: Supplemental static audit (NOT GenVM linter)
+        run: python scripts/static_contract_audit.py
+      - name: Local logic tests (fake SDK; NOT chain proof)
+        run: PYTHONPATH=tests/local pytest tests/local -q
+      - name: Official GenVM static lint
+        run: genvm-lint check contracts/*.py
+      - name: Official GenLayer Direct Mode tests
+        run: pytest tests/direct -v

@@ -1,0 +1,6 @@
+# Compatible pinned stable dependencies: genlayer-test 0.29.2 requires genlayer-py >=0.13,<0.17.
+# Contract runtime is separately pinned by the py-genlayer Depends header.
+genlayer-py==0.16.3
+genlayer-test==0.29.2
+genvm-linter==0.11.0
+pytest>=8,<10
