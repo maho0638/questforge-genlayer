@@ -34,8 +34,18 @@
     "run_url": "https://github.com/maho0638/questforge-genlayer/actions/runs/45056608635"
   },
   "studionet": {
-    "status": "NOT_RUN",
-    "reason": "Requires separate explicit authorization for real chain transactions/gas"
+    "status": "LIVE_VERIFIED",
+    "chain_id": 61999,
+    "contract": "0x0362B282B2389B8AE1D609a845b32986675573b3",
+    "tx_finalized_count": 4,
+    "validator_votes": {
+      "agree": 3,
+      "idle": 2
+    },
+    "semantic_result": "PASS",
+    "run_url": "https://github.com/maho0638/questforge-genlayer/actions/runs/45057554737",
+    "audit_url": "https://github.com/maho0638/chartercycle-genlayer/actions/runs/45057971178",
+    "proof": "docs/STUDIONET_PROOF.json"
   },
   "github_ci": {
     "status": "PASS",
@@ -50,6 +60,6 @@
     "https://docs.genlayer.com/developers/intelligent-contracts/equivalence-principle",
     "https://docs.genlayer.com/api-references/genlayer-linter"
   ],
-  "release_gate": "CODE_AND_GITHUB_CI_VERIFIED__LIVE_STUDIONET_AND_PORTAL_NOT_AUTHORIZED",
+  "release_gate": "STUDIONET_VERIFIED__PORTAL_NOT_SUBMITTED",
   "public_before_portal": true
 }
