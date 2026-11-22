@@ -1,20 +1,19 @@
-# Hard release gate — action requires user approval
+# Release gate — explicit authorization required
 
-- [x] Official `genvm-lint check` PASS on exact source hash, evidence captured.
-- [x] Official GenLayer Direct Mode tests PASS, including validator disagreements.
-- [ ] Studionet deployments and real write/read finalization PASS; record addresses and TX hashes.
-- [ ] Source SHA-256 equals deployed proof manifest; preserve validator/leader results.
-- [ ] Security review: auth, replay, duplicate IDs, ranges, time windows and terminal states.
-- [ ] Review external duplicate projects / reviewer criteria one last time.
-- [x] **Explicit user permission for GitHub push** before creating commits on the remote.
-- [ ] **REMIND USER: make BOTH GitHub repositories Public before Portal submission**, then verify unauthenticated read access.
-- [ ] **Explicit user permission for chain deploy / gas and Portal submission.**
+- [x] Source committed to GitHub under user-authorized development task
+- [x] Local fake-SDK regression 39/39
+- [x] Python compilation and supplemental static checks
+- [x] Official `genvm-lint check` PASS
+- [x] Official GenLayer Direct Mode 7/7 PASS, including validator mismatch
+- [x] Security audit: wallet permissions, replay, boundary times, retained ID history, terminal-state accounting
+- [ ] Studionet deployment and independent real-chain read/write/finality
+- [ ] Record real on-chain contract address, transaction hashes, leader/validator results, gas
+- [ ] Verify on-chain source correspondence and finality from the Explorer/RPC
+- [ ] Review latest Portal criteria and distinctness against live competing contributions
+- [ ] **Reminder: Both private repositories must be made Public before Portal submission; verify logged-out access**
+- [ ] User's separate explicit authorization for chain deployment/gas
+- [ ] User's separate explicit authorization for Portal submission
 
-Source code, tests, mock simulation and successful CI are distinct from real finalized GenLayer transactions.
+Evidence of code-level checks: https://github.com/maho0638/questforge-genlayer/actions/runs/45056608635
 
-## Verified CI evidence (not deployment)
-
-- Source SHA-256: `da662f7678b6bc24670be20485f1811033af359e46eb5c86a6529e84598c70ee`
-- 34/34 mock-only local tests, 5/5 official Direct Mode and GenVM lint PASS.
-- https://github.com/maho0638/questforge-genlayer/actions/runs/45045352664
-- Studionet live verification remains blocked without separate chain/gas permission.
+No on-chain claim should be made before verified finalized transactions.

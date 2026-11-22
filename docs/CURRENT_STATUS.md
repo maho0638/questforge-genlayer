@@ -1,13 +1,17 @@
-# Verification status — 2026-11-22
+# QuestForge — Verified QA (2026-11-22)
 
-- GitHub source push: **COMPLETE**, user-authorized.
-- Python compilation / supplemental AST audit / fake-SDK QA: **PASS** (34/34 local tests).
-- Official GenVM lint: **PASS**.
-- Official GenLayer Direct Mode: **PASS**, 5/5, including validator disagreement cases.
-- Evidence: https://github.com/maho0638/questforge-genlayer/actions/runs/45045352664 at commit `e3f9aaac07b03296423ccb2862b6e28fba788227`.
-- Contract source SHA-256: `da662f7678b6bc24670be20485f1811033af359e46eb5c86a6529e84598c70ee`.
-- Studionet live transactions and finalized validator consensus: **NOT RUN**; explicit chain/gas approval required.
-- Portal submission: **NOT AUTHORIZED**.
-- **BEFORE PORTAL SUBMISSION:** change BOTH repositories Private → Public and verify anonymous GitHub access.
+- Contract: `contracts/quest_forge.py`
+- Contract SHA-256: `1527dca395726d9b7495f9af6ec1ef4bb3be6354d40eb24e29aac5a110d72d84`
+- Source commit: `7d85ba25b6ddc68674aaafa482c40eb99470377b`
+- GitHub Actions: **SUCCESS** — https://github.com/maho0638/questforge-genlayer/actions/runs/45056608635
+- Job ID: `137313128154`
+- Python compilation: PASS
+- Supplemental static AST audit: PASS (not official lint)
+- Fake SDK: **39/39 PASS** (simulation)
+- Official GenVM lint: **PASS** (three checks and validation)
+- Official Direct Mode: **7/7 PASS**, validator reruns with mocked LLM
+- Studionet live deployment + finalized transactions: **NOT RUN**, pending separate gas/chain approval
+- Portal submission: **NOT AUTHORIZED**
+- Both GitHub repositories: **PRIVATE**; switch to Public before Portal submission and verify anonymous accessibility
 
-Mock LLM in Direct Mode ≠ real chain finality. No contract has been deployed in this task.
+Real Direct Mode checks are not equivalent to real on-chain consensus.
