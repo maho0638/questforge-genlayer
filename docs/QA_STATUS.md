@@ -1,16 +1,19 @@
-# QA v3 — questforge-genlayer
+# QA verified — questforge-genlayer
 
 Checked: 2026-11-22
 
-- Contract SHA-256: `5fb1b313102cf54a4d0eb670bc494f14b92fa06aa9f0eb060856fd19c9aa3106`
-- `python -m compileall -q contracts tests`: **PASS**
-- `python scripts/static_contract_audit.py`: **PASS** (custom, NOT official GenVM lint)
-- `PYTHONPATH=tests/local python -m pytest tests/local -q`: **34/34 PASS** (fake SDK, NOT GenVM)
-- Official `genvm-lint check`: **NOT RUN** — runtime tooling unavailable; package network blocked
-- Official Direct Mode with `genlayer-test`: **NOT RUN** — dependencies unavailable
-- Studionet deployment, transactions, finality and validator consensus: **NOT RUN** — needs separate gas/chain authorization
-- GitHub CI: **PENDING** — CI will execute after approved push
+- Contract: `contracts/quest_forge.py`
+- Contract SHA-256: `da662f7678b6bc24670be20485f1811033af359e46eb5c86a6529e84598c70ee`
+- Python syntax: **PASS**, verified GitHub Actions
+- Supplemental AST audit: **PASS**, custom only
+- Fake-SDK local pytest: **34/34 PASS** (NOT chain proof)
+- Official `genvm-lint check contracts/*.py`: **PASS** (3 checks + validation)
+- Official GenLayer Direct Mode (`genlayer-test==0.29.2`): **5/5 PASS** including validator mismatch scenarios
+- CI run for exact contract version: https://github.com/maho0638/questforge-genlayer/actions/runs/45045352664
+- CI job ID: `137278653715`; contract commit: `e3f9aaac07b03296423ccb2862b6e28fba788227`
+- Studionet deploy, actual write/read, transaction finality and live validator consensus: **NOT RUN** (separate chain/gas authorization required)
+- Portal submission: **NOT AUTHORIZED**
 
-Local tests include parameter loops; loop iterations are not separately counted as pytest cases.
+The CI pipeline copies the official `genvm-runners-all.tar.xz` bundle cached by `genvm-linter` into the legacy `gltest-direct` cache filename to fix the upstream missing `genvm-universal.tar.xz` release asset. It does NOT bypass GenVM testing.
 
-**Pre-submission reminder:** Both GitHub repositories currently Private; make both Public and verify anonymous access before Portal submission.
+**Before Portal submission:** change **BOTH** private GitHub repositories to Public; verify anonymous access. The successful CI is not evidence of on-chain deployment.

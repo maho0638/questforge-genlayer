@@ -3,7 +3,7 @@
   "date": "2026-11-22",
   "repo": "questforge-genlayer",
   "contract_path": "contracts/quest_forge.py",
-  "source_sha256": "5fb1b313102cf54a4d0eb670bc494f14b92fa06aa9f0eb060856fd19c9aa3106",
+  "source_sha256": "da662f7678b6bc24670be20485f1811033af359e46eb5c86a6529e84598c70ee",
   "local_fake_sdk_tests": {
     "status": "PASS",
     "passed": 34,
@@ -20,26 +20,37 @@
     "official": false
   },
   "genvm_lint": {
-    "status": "NOT_RUN",
-    "reason": "official linter unavailable"
+    "status": "PASS",
+    "official": true,
+    "checks": 3,
+    "source": "github_actions",
+    "run_url": "https://github.com/maho0638/questforge-genlayer/actions/runs/45045352664"
   },
   "official_direct_mode": {
-    "status": "NOT_RUN",
-    "reason": "genlayer-test unavailable"
+    "status": "PASS",
+    "passed": 5,
+    "total": 5,
+    "validator_reruns": true,
+    "mode": "official_direct_sdk_with_mock_llm",
+    "run_url": "https://github.com/maho0638/questforge-genlayer/actions/runs/45045352664"
   },
   "studionet": {
     "status": "NOT_RUN",
-    "reason": "explicit chain/gas permission required"
+    "reason": "explicit chain deployment and gas authorization required"
   },
   "github_ci": {
-    "status": "PENDING",
-    "reason": "approved push to trigger CI"
+    "status": "PASS",
+    "contract_commit": "e3f9aaac07b03296423ccb2862b6e28fba788227",
+    "run_id": 45045352664,
+    "run_url": "https://github.com/maho0638/questforge-genlayer/actions/runs/45045352664",
+    "job_id": 137278653715,
+    "conclusion": "success"
   },
   "source_references": [
     "https://docs.genlayer.com/developers/intelligent-contracts/testing",
     "https://docs.genlayer.com/developers/intelligent-contracts/equivalence-principle",
     "https://docs.genlayer.com/api-references/genlayer-linter"
   ],
-  "release_gate": "NOT_READY",
+  "release_gate": "BLOCKED_ON_STUDIONET_CHAIN_APPROVAL_AND_PUBLIC_PORTAL_REQUIREMENT",
   "public_before_portal": true
 }

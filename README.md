@@ -27,12 +27,12 @@
 | Python compile | PASS (locally) |
 | Supplementary AST audit (NOT official lint) | PASS (locally) |
 | Pure-Python contract-logic simulation | PASS (34 tests, fake SDK and fake LLM) |
-| Official GenLayer Direct Mode test source | Prepared, **not executed** |
-| `genvm-lint check` | **Not executed** (linter unavailable in authoring runtime) |
-| Real GenVM / Studionet | **Not executed** |
+| Official GenLayer Direct Mode tests | **5/5 PASS** (GitHub Actions; actual SDK fixture, not Studionet) |
+| `genvm-lint check` | **PASS** (GitHub Actions, official linter) |
+| Studionet deploy / on-chain finality | **NOT RUN** — requires separate chain/gas approval |
 | Reviewer/portal submission | Not submitted |
 
-`PYTHONPATH=tests/local python -m pytest tests/local -q` runs the isolated fake-SDK logic tests. The repo also contains non-deploying GitHub Actions checks, but they have NOT run because no push is authorized.
+`PYTHONPATH=tests/local python -m pytest tests/local -q` runs the isolated fake-SDK logic tests. The repository includes a non-deploying GitHub Actions workflow, verified successful.
 
 With GenLayer tooling installed, run:
 
@@ -42,13 +42,13 @@ genvm-lint check contracts/quest_forge.py
 pytest tests/direct/ -v
 ```
 
-These commands are documentation only until the checks are run and captured with exact tool versions. See `docs/THREAT_MODEL.md` and `docs/RELEASE_GATE.md`.
+GitHub Actions verified these commands against the actual SDK and official linter: https://github.com/maho0638/questforge-genlayer/actions/runs/45045352664. See `docs/THREAT_MODEL.md` and `docs/RELEASE_GATE.md`.
 
 ## Release control
 
-Before Portal submission, **REMIND OWNER TO CHANGE BOTH PRIVATE GITHUB REPOSITORIES TO PUBLIC** and verify access while logged out. No git push/merge, chain deploy, gas spending or Portal submission without separate explicit user permission.
+Before Portal submission, **REMIND OWNER TO CHANGE BOTH PRIVATE GITHUB REPOSITORIES TO PUBLIC** and verify access while logged out. GitHub source push was separately authorized and completed. Chain deploy, gas spending and Portal submission require separate explicit user permission.
 
-The official Direct Mode tests are authored but **not independently verified** in this local environment. Current CI and test results must never be represented as finalized on-chain consensus.
+Official Direct Mode tests passed in GitHub Actions, with mocked LLMs and validator reruns; these are NOT finalized on-chain consensus or Studionet transactions.
 
 ## QA v3 update (2026-11-22)
 
@@ -57,4 +57,5 @@ The official Direct Mode tests are authored but **not independently verified** i
 - QuestForge rejects boolean turn nonce before type conversion.
 - CharterCycle covers quorum acceptance/rejection for all configured member counts 3..15.
 - QuestForge runs 100 reproducible seeded game traces with bounds assertions.
-- No real GenVM lint, Direct Mode execution or live chain proof has been claimed.
+- Official GenVM lint and Direct Mode passed in GitHub Actions (5/5 Direct Mode); live Studionet proof has NOT been claimed.
+- Verified exact source SHA-256: `da662f7678b6bc24670be20485f1811033af359e46eb5c86a6529e84598c70ee`; canonical CI: https://github.com/maho0638/questforge-genlayer/actions/runs/45045352664.
