@@ -88,18 +88,17 @@ def test_terminal_win_frees_capacity(ctx):
     with pytest.raises(FakeUserError,match='Game not active'):
         c.expire_stalled_game('game_one')
 
-def test_global_active_slots_recover_without_lifetime_cap(ctx):
+def test_more_than_128_simultaneous_games_cannot_globally_block_new_users(ctx):
     sdk,mod,c,t=ctx
-    for j in range(mod.MAX_ACTIVE_GAMES):
+    # Many different creators cannot exhaust an artificial global slot ceiling.
+    for j in range(129):
         sdk.message.sender_address='0x'+f'{j+1:040x}'
         c.create_game(f'game_{j:05d}', B if sdk.message.sender_address!=B else A)
-    assert c.get_active_game_count()==mod.MAX_ACTIVE_GAMES
-    sdk.message.sender_address='0x'+f'{mod.MAX_ACTIVE_GAMES+1:040x}'
-    with pytest.raises(FakeUserError,match='Global active game'):
-        c.create_game('overflow_game',B)
+    assert c.get_active_game_count()==129
     sdk.message.sender_address='0x'+f'{1:040x}'
     c.cancel_lobby('game_00000')
-    sdk.message.sender_address='0x'+f'{mod.MAX_ACTIVE_GAMES+1:040x}'
-    c.create_game('overflow_game',B)
-    assert c.get_active_game_count()==mod.MAX_ACTIVE_GAMES
-    assert c.get_game_count()==mod.MAX_ACTIVE_GAMES+1
+    assert c.get_active_game_count()==128
+    sdk.message.sender_address='0x'+f'{130:040x}'
+    c.create_game('game_00129', B)
+    assert c.get_active_game_count()==129
+    assert c.get_game_count()==130

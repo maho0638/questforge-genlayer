@@ -10,4 +10,4 @@ Scope: contract code and tests only; no website, deploy or transactions.
 
 CI status: pending current code push and GitHub Actions results.
 
-Controls: 128 concurrent games, 2 active per creator; slot returned on every terminal result; neutral expiry after 7 inactive days.
+Controls: no global active-game cap, 2 active per creator; slot returned on every terminal result; neutral expiry after 7 inactive days.

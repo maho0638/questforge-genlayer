@@ -12,7 +12,6 @@ from genlayer import *
 
 # Only live games consume simultaneous-activity slots. Historical games
 # remain immutable and enumerable; closing them returns capacity.
-MAX_ACTIVE_GAMES = 128
 MAX_ACTIVE_PER_CREATOR = 2
 MAX_INDEX_ENTRIES = 2**32 - 1
 STALE_GAME_EXPIRY = 7 * 24 * 60 * 60
@@ -162,8 +161,6 @@ class QuestForge(gl.Contract):
         _require(guest != creator, "Players must be distinct")
         _require(self.games.get(game_id, "") == "", "Duplicate game ID")
         _require(len(self.game_index) < MAX_INDEX_ENTRIES, "Game index exhausted")
-        _require(int(self.active_games) < MAX_ACTIVE_GAMES,
-                 "Global active game capacity exhausted")
         current = int(self.active_by_creator.get(creator, u32(0)))
         _require(current < MAX_ACTIVE_PER_CREATOR,
                  "Creator active game capacity exhausted")

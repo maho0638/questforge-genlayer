@@ -19,9 +19,9 @@
 
 ## Explicit restrictions
 
-- Two players only; three fixed puzzle stages; 12-turn limit; **128 active games** maximum, not 128 historical games.
+- Two players only; three fixed puzzle stages; 12-turn limit; no global game limit; active-game accounting is informational and per-creator slots are bounded.
 - Each creator can open up to two active games concurrently. Closed games retain their immutable IDs and readable history.
-- Sybil wallets can still temporarily occupy the 128 active slots; eventual permissionless cleanup ensures this is not permanent after 7 days of inactivity.
+- Sybil wallets can create many games and consume chain storage/gas; there is no shared global slot ceiling for them to exhaust. Stale-game cleanup prevents permanent active-slot consumption.
 - A non-stalling player must claim a forfeit between 48 hours and 7 days before an outsider can choose neutral expiry.
 - A public contract cannot keep clues secret. `get_stage` intentionally reveals stages.
 - Game history stores SHA-256 of player narrative, not text itself; a hash is not strong privacy for low-entropy messages.
