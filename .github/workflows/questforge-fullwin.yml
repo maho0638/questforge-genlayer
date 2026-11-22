@@ -1,0 +1,24 @@
+name: QuestForge live full-win state machine proof
+on:
+  push:
+    paths:
+      - "proofs/questforge_full_win_studionet.py"
+      - ".github/workflows/questforge-fullwin.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  full-win-live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned SDK
+        run: python -m pip install -r requirements.txt
+      - name: Log exact contract code hash
+        run: sha256sum contracts/quest_forge.py
+      - name: Five turns with three real semantic consensus decisions, assert WON
+        run: gltest proofs/questforge_full_win_studionet.py -v -s --network studionet
