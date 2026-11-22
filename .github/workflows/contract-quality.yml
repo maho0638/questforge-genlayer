@@ -25,5 +25,10 @@ jobs:
         run: PYTHONPATH=tests/local pytest tests/local -q
       - name: Official GenVM static lint
         run: genvm-lint check contracts/*.py
+      - name: Reuse verified GenVM release bundle for Direct Mode
+        run: |
+          mkdir -p "$HOME/.cache/gltest-direct"
+          cp "$HOME/.cache/genvm-linter/genvm-universal-v0.3.0-rc7.tar.xz" "$HOME/.cache/gltest-direct/genvm-universal-v0.3.0-rc7.tar.xz"
+          test -s "$HOME/.cache/gltest-direct/genvm-universal-v0.3.0-rc7.tar.xz"
       - name: Official GenLayer Direct Mode tests
         run: pytest tests/direct -v
