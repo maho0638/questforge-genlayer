@@ -89,3 +89,39 @@ def test_quest_forge_real_direct_bad_nonce(direct_vm, direct_deploy, direct_alic
     with direct_vm.expect_revert('Stale turn nonce'):
         c.act('quest_05', 0, 'SCOUT', 'Read the signs and observe the stone bridge carefully.')
     assert json.loads(c.get_game('quest_05'))['turn'] == 1
+
+
+def test_quest_active_capacity_reusable_after_cancel(direct_vm, direct_deploy, direct_alice, direct_bob):
+    direct_vm.sender = direct_alice
+    c = direct_deploy('contracts/quest_forge.py')
+    c.create_game('life_one', addr(direct_bob))
+    c.create_game('life_two', addr(direct_bob))
+    assert int(c.get_active_game_count()) == 2
+    with direct_vm.expect_revert('Creator active game capacity exhausted'):
+        c.create_game('life_three', addr(direct_bob))
+    c.cancel_lobby('life_one')
+    c.create_game('life_three', addr(direct_bob))
+    assert int(c.get_active_game_count()) == 2
+    assert int(c.get_game_count()) == 3
+    with direct_vm.expect_revert('Duplicate game ID'):
+        c.create_game('life_one', addr(direct_bob))
+
+
+def test_quest_expired_active_game_cleanup(direct_vm, direct_deploy, direct_alice, direct_bob, direct_charlie):
+    direct_vm.warp('2026-11-01T00:00:00Z')
+    direct_vm.sender = direct_alice
+    c = direct_deploy('contracts/quest_forge.py')
+    c.create_game('abandoned', addr(direct_bob))
+    direct_vm.sender = direct_bob
+    c.join_game('abandoned')
+    direct_vm.sender = direct_charlie
+    direct_vm.warp('2026-11-07T23:59:59Z')
+    with direct_vm.expect_revert('Neutral expiry not reached'):
+        c.expire_stalled_game('abandoned')
+    direct_vm.warp('2026-11-08T00:00:00Z')
+    c.expire_stalled_game('abandoned')
+    assert int(c.get_active_game_count()) == 0
+    state = json.loads(c.get_game('abandoned'))
+    assert state['status'] == 'EXPIRED' and state['winner'] == 'NONE'
+    with direct_vm.expect_revert('Game not active'):
+        c.expire_stalled_game('abandoned')

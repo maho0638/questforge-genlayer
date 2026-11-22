@@ -10,7 +10,12 @@ import json
 from datetime import datetime, timezone
 from genlayer import *
 
-MAX_GAMES = 128
+# Only live games consume simultaneous-activity slots. Historical games
+# remain immutable and enumerable; closing them returns capacity.
+MAX_ACTIVE_GAMES = 128
+MAX_ACTIVE_PER_CREATOR = 2
+MAX_INDEX_ENTRIES = 2**32 - 1
+STALE_GAME_EXPIRY = 7 * 24 * 60 * 60
 MAX_TURNS = 12
 LOBBY_EXPIRY = 24 * 60 * 60
 TURN_EXPIRY = 48 * 60 * 60
@@ -83,15 +88,26 @@ class QuestForge(gl.Contract):
     games: TreeMap[str, str]
     turns: TreeMap[str, str]
     game_index: DynArray[str]
+    active_games: u32
+    active_by_creator: TreeMap[str, u32]
 
     def __init__(self):
-        pass
+        self.active_games = u32(0)
 
     def _now(self) -> int:
         return int(datetime.now(timezone.utc).timestamp())
 
     def _sender(self) -> str:
         return _address(str(gl.message.sender_address))
+
+    def _release_slot(self, game: dict) -> None:
+        """Release one live slot once, only on a terminal state transition."""
+        creator = game["p1"]
+        previous = int(self.active_by_creator.get(creator, u32(0)))
+        total = int(self.active_games)
+        _require(previous > 0 and total > 0, "Invalid active game accounting")
+        self.active_by_creator[creator] = u32(previous - 1)
+        self.active_games = u32(total - 1)
 
     def _game(self, game_id: str) -> dict:
         raw = self.games.get(game_id, "")
@@ -145,7 +161,12 @@ class QuestForge(gl.Contract):
         guest = _address(invited_player)
         _require(guest != creator, "Players must be distinct")
         _require(self.games.get(game_id, "") == "", "Duplicate game ID")
-        _require(len(self.game_index) < MAX_GAMES, "Game capacity exhausted")
+        _require(len(self.game_index) < MAX_INDEX_ENTRIES, "Game index exhausted")
+        _require(int(self.active_games) < MAX_ACTIVE_GAMES,
+                 "Global active game capacity exhausted")
+        current = int(self.active_by_creator.get(creator, u32(0)))
+        _require(current < MAX_ACTIVE_PER_CREATOR,
+                 "Creator active game capacity exhausted")
         now = self._now()
         self.games[game_id] = _encode({
             "id": game_id, "p1": creator, "p2": guest,
@@ -156,6 +177,8 @@ class QuestForge(gl.Contract):
             "created_at": now, "last_action_at": now, "expires_at": now + LOBBY_EXPIRY,
         })
         self.game_index.append(game_id)
+        self.active_by_creator[creator] = u32(current + 1)
+        self.active_games = u32(int(self.active_games) + 1)
 
     @gl.public.write
     def join_game(self, game_id: str) -> None:
@@ -175,6 +198,7 @@ class QuestForge(gl.Contract):
         _require(caller == game["p1"] or self._now() >= game["expires_at"],
                  "Only creator may cancel before expiry")
         game["status"] = "CANCELLED"
+        self._release_slot(game)
         self.games[game_id] = _encode(game)
 
     @gl.public.write
@@ -240,6 +264,8 @@ class QuestForge(gl.Contract):
             game["winner"] = "NONE"
         else:
             game["next"] = game["p2"] if is_first else game["p1"]
+        if game["status"] in ("WON", "LOST"):
+            self._release_slot(game)
 
         self.turns[self._turn_key(game_id, int(expected_turn))] = _encode({
             "turn": int(expected_turn), "actor": actor, "action": action,
@@ -262,7 +288,32 @@ class QuestForge(gl.Contract):
         _require(caller != game["next"], "Stalling player cannot claim win")
         game["status"] = "FORFEIT"
         game["winner"] = caller
+        self._release_slot(game)
         self.games[game_id] = _encode(game)
+
+    @gl.public.write
+    def expire_stalled_game(self, game_id: str) -> None:
+        """Permissionless neutral cleanup when BOTH players abandoned a game.
+
+        The non-stalling player has 5 days after the 48-hour forfeit window
+        opens to claim the win before neutral expiry at 7 days.
+        """
+        game = self._game(game_id)
+        _require(game["status"] == "ACTIVE", "Game not active")
+        _require(self._now() >= game["last_action_at"] + STALE_GAME_EXPIRY,
+                 "Neutral expiry not reached")
+        game["status"] = "EXPIRED"
+        game["winner"] = "NONE"
+        self._release_slot(game)
+        self.games[game_id] = _encode(game)
+
+    @gl.public.view
+    def get_active_game_count(self) -> u32:
+        return self.active_games
+
+    @gl.public.view
+    def get_creator_active_count(self, creator: str) -> u32:
+        return self.active_by_creator.get(_address(creator), u32(0))
 
     @gl.public.view
     def get_game(self, game_id: str) -> str:
