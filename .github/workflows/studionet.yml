@@ -1,0 +1,26 @@
+name: QuestForge Studionet Live Consensus Proof
+on:
+  push:
+    paths:
+      - "tests/integration/**"
+      - ".github/workflows/studionet.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  studionet-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned GenLayer toolchain
+        run: python -m pip install -r requirements.txt
+      - name: Record exact live contract source hash
+        run: sha256sum contracts/quest_forge.py
+      - name: Run real Studionet consensus, no mocked LLM or leader-only mode
+        run: gltest tests/integration/test_questforge_studionet.py -v -s --network studionet
