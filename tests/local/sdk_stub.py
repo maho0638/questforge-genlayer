@@ -47,8 +47,19 @@ class Nondet:
             raise AssertionError("Missing local fake-LLM response")
         return self.answers.pop(0)
 
+class FakeContract:
+    """Emulate GenVM annotation-managed typed storage for local-only tests."""
+    def __new__(cls, *args, **kwargs):
+        obj = super().__new__(cls)
+        for name, field_type in getattr(cls, "__annotations__", {}).items():
+            if field_type is TreeMap:
+                setattr(obj, name, TreeMap())
+            elif field_type is DynArray:
+                setattr(obj, name, DynArray())
+        return obj
+
 class SDK:
-    Contract = object
+    Contract = FakeContract
     def __init__(self):
         self.message = types.SimpleNamespace(sender_address="")
         self.public = Public()

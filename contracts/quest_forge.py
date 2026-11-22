@@ -85,9 +85,7 @@ class QuestForge(gl.Contract):
     game_index: DynArray[str]
 
     def __init__(self):
-        self.games = TreeMap()
-        self.turns = TreeMap()
-        self.game_index = DynArray[str]()
+        pass
 
     def _now(self) -> int:
         return int(datetime.now(timezone.utc).timestamp())
