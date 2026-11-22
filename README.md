@@ -46,3 +46,13 @@ Chain deployment/gas, Portal submission, and any other external action need sepa
 - [Independent six-transaction RPC finality and voting audit](https://github.com/maho0638/chartercycle-genlayer/actions/runs/45057971178): **PASS**.
 - `docs/STUDIONET_PROOF.json` contains source SHA-256, contract address, all transaction hashes, real validator vote tally (3 Agree / 2 Idle), and observed outcomes.
 - No website/Vercel deployment. Portal not submitted. Both private repositories must be changed to Public before Portal.
+
+## Full game victory on Studionet — independently verified
+
+- New full-game contract: `0xFcB9E07AeF6612489e615523a1e6Fb4FE42e5c33`, source SHA-256 unchanged.
+- 2 players, 5 moves, 3 AI consensus judgments **PASS/PASS/PASS**.
+- Three validator votes: **3 Agree / 2 Idle** each, one round each.
+- Final game state: **WON**, winner **COOPERATIVE**, stage 3, active games 0.
+- **7/7 on-chain transactions FINALIZED**, separately checked through RPC.
+- [Real-game GitHub Actions](https://github.com/maho0638/questforge-genlayer/actions/runs/45062059620) and [independent RPC audit](https://github.com/maho0638/chartercycle-genlayer/actions/runs/45062392936).
+- Transaction hashes and stage history are in `docs/STUDIONET_PROOF.json`.

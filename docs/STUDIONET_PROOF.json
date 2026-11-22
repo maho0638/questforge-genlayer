@@ -41,8 +41,49 @@
   "limits": [
     "Studionet is a temporary development environment",
     "No third-party security audit",
-    "Only tested gameplay subset on-chain; complete win tested in Direct Mode",
     "Portal submission not executed"
   ],
-  "repo_release_reminder": "Change both repos Private to Public before Portal submission"
+  "repo_release_reminder": "Change both repos Private to Public before Portal submission",
+  "full_game_winning_proof": {
+    "status": "WON",
+    "winner": "COOPERATIVE",
+    "stage": 3,
+    "turns": 5,
+    "active_game_count_after": 0,
+    "contract": "0xFcB9E07AeF6612489e615523a1e6Fb4FE42e5c33",
+    "game_id": "full_win_proof_20261122",
+    "semantic_solve_decisions": [
+      "PASS",
+      "PASS",
+      "PASS"
+    ],
+    "semantic_validator_votes": [
+      {
+        "agree": 3,
+        "idle": 2
+      },
+      {
+        "agree": 3,
+        "idle": 2
+      },
+      {
+        "agree": 3,
+        "idle": 2
+      }
+    ],
+    "consensus_rounds_per_solve": 1,
+    "transactions": {
+      "create": "0xfff83a152548ccf22e0e4a17fbd6452c3394be6042390239d38094a640e9b598",
+      "join": "0x5aba39db722200f2d40cfabf102bb39321d8847de25ecfac4d229d84258b44c1",
+      "turn0_solve": "0xd663a74e5a85c93f684fced68999ff113bc52504a21013e38fadfea48716ba6f",
+      "turn1_solve": "0xdfc2c495bdc586cbf4b2e8223fbe17eade9d629af6f9e39582c7cb48c2eb4fc8",
+      "turn2_scout": "0xc0fbe93160f3b7efb262d02b470bd7c2182f68c87af986d19e519fd1c0bcf389",
+      "turn3_scout": "0x709dab247c7ba0d99b4069d3344da8501ca76ef521f772bed15601aac666e5cf",
+      "turn4_solve": "0xfc8fca8c6d656fa44dc50182bb7d55da87dd8f39611b3b0f7fd29845e24ce27b"
+    },
+    "all_seven_transaction_status": "FINALIZED",
+    "source_hash": "1527dca395726d9b7495f9af6ec1ef4bb3be6354d40eb24e29aac5a110d72d84",
+    "live_run": "https://github.com/maho0638/questforge-genlayer/actions/runs/45062059620",
+    "independent_rpc_audit": "https://github.com/maho0638/chartercycle-genlayer/actions/runs/45062392936"
+  }
 }
