@@ -1,6 +1,6 @@
 # QuestForge — Consensus-Refereed Cooperative Strategy (GenLayer)
 
-**Python Intelligent Contract only — no frontend or Vercel project. Not deployed on Studionet.**
+**Python GenLayer Intelligent Contract only — no website. Live-verified on Studionet (chain ID 61999).**
 
 ## Implemented contract
 
@@ -22,7 +22,7 @@ Source: `contracts/quest_forge.py`. One standalone `gl.Contract` with persistent
 - [Canonical successful GitHub Actions run](https://github.com/maho0638/questforge-genlayer/actions/runs/45056608635)
 - Verified source SHA-256: `1527dca395726d9b7495f9af6ec1ef4bb3be6354d40eb24e29aac5a110d72d84`
 - Verified source commit: `7d85ba25b6ddc68674aaafa482c40eb99470377b`
-- **No Studionet transaction, contract deployment, on-chain finalization or real validator vote has been executed for this project.**
+- **Studionet LIVE VERIFIED:** 0x0362B282B2389B8AE1D609a845b32986675573b3; four transactions FINALIZED; semantic PASS; 3 Agree / 2 Idle votes.
 
 For reproducibility:
 
@@ -39,3 +39,10 @@ Full security limitations: `docs/THREAT_MODEL.md`. Latest exact test evidence: `
 
 **BEFORE PORTAL SUBMISSION: Change both GitHub repositories from PRIVATE to PUBLIC and verify logged-out access.**
 Chain deployment/gas, Portal submission, and any other external action need separate explicit user authorization.
+
+## Final live consensus record — 2026-11-22
+
+- [Live GenLayer Studionet test](https://github.com/maho0638/questforge-genlayer/actions/runs/45057554737): **PASS**.
+- [Independent six-transaction RPC finality and voting audit](https://github.com/maho0638/chartercycle-genlayer/actions/runs/45057971178): **PASS**.
+- `docs/STUDIONET_PROOF.json` contains source SHA-256, contract address, all transaction hashes, real validator vote tally (3 Agree / 2 Idle), and observed outcomes.
+- No website/Vercel deployment. Portal not submitted. Both private repositories must be changed to Public before Portal.
